@@ -191,12 +191,6 @@ public extension WS281x.Color {
               green: UInt8(CGFloat(UInt8.max) * green),
               blue: UInt8(CGFloat(UInt8.max) * blue))
   }
-  
-  public init(cgColor: CGColor) {
-    self.init(red: cgColor.components![0],
-              green: cgColor.components![1],
-              blue: cgColor.components![2])
-  }
 }
 
 
