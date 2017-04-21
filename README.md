@@ -48,55 +48,11 @@ We'll then need to specify the number of leds and the type of the leds we are us
 Let's start clearing all the leds in the strip, setting them with the rgb color `#000000`:
 
 ```swift
-var initial = [UInt32](repeating:0x0, count: numberOfLeds)
-
-w.setLeds(initial)
+w.clear()
 
 w.start()
 w.wait()
 ```
-
-With `setLeds` we are configuring the strip with an array of 60 32 bits elements that contain the pixel 24bits colors in the format `0x00RRGGBB`. Once done, we call `start()` to send the signal and then `wait()` for the configuration of the strip to complete.
-
-We can then set individual pixel along the strip:
-
-```swift
-w.setLed(10, r: 0xF0, g: 0, b: 0)
-```
-
-Or if we had a matrix we could have also used two specific additional methods that use two different 2D coordinate schemes.
-
-Your matrix could be connected differently from these two, do some test setting individual pixels with setLed() to understand how the leds are connected or use the snake effect that scrolls through the sequence from the beginning to the last element.
-
-Let's set the led at (4,4) for matrices where each row starts with the (row-1)*width element in the sequence (e.g. Nulsom Rainbow Matrix) as show here:
-```
-  0  1  2  3
-  4  5  6  7
-  8  9  10 11
-  12 13 14 15
-```
-
-In this case we'll use `setLedAsMatrix`:
-
-```swift
-w.setLedAsMatrix(x: 4, y: 4, width: matrixWidth, r: 0, g: 0, b: 0xF0)
-```
-
-Now, let0s set the led at (5,2) for matrices where each row is connetted to the last element of the preceding row (e.g. Pimoroni UnicornHat) like this:
-```
-  3  2  1  0
-  4  5  6  7
-  11 10 9  8
-  12 13 14 15
-```
-
-In this case we'll use `setLedAsSequentialMatrix`:
-
-```swift
-w.setLedAsSequentialMatrix(x: 5, y: 2, width: matrixWidth, r: 0, g: 0, b: 0xF0)
-```
-
-If neither method set the pixels of your matrix in the right position just use `setLed` to roll you own implementation or perform bulk `setLeds` (as you'll see in the example this is what I normally do too)
 
 Once you are done (or even in a `defer` block) remember to clean up all the temporary PWM settings that were needed for this library with:
 
@@ -122,14 +78,12 @@ Once your board runs Swift, if your version support the Swift Package Manager, y
   let package = Package(
       name: "MyProject",
       dependencies: [
-    .Package(url: "https://github.com/uraimo/WS281x.swift.git", majorVersion: 1),
+    .Package(url: "https://github.com/uraimo/WS281x.swift.git", majorVersion: 2),
     ...
       ]
       ...
   ) 
 ```
-
-The directory `Examples` contains sample projects that uses SPM, compile it and run the sample with `./.build/debug/TestWS2812B`.
 
 If SPM is not supported, you'll need to manually download the library and its dependencies: 
 
